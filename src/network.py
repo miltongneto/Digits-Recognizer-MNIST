@@ -63,7 +63,7 @@ class Network(object):
             for mini_batch in mini_batches:
                 self.update_mini_batch(mini_batch, eta)
             if test_data:
-                print ("Epoch {0}: {1} / {2}".format(
+                print ("Total result of Epoch {0}: {1} / {2}".format(
                     j, self.evaluate(test_data), n_test))
             else:
                 print ("Epoch {0} complete".format(j))
@@ -126,12 +126,23 @@ class Network(object):
         neuron in the final layer has the highest activation."""
         test_results = [(np.argmax(self.feedforward(x)), y)
                         for (x, y) in test_data]
+        self.evaluateClasses(test_results)
         return sum(int(x == y) for (x, y) in test_results)
 
     def cost_derivative(self, output_activations, y):
         """Return the vector of partial derivatives \partial C_x /
         \partial a for the output activations."""
         return (output_activations-y)
+
+
+    def evaluateClasses(self, test_results):
+        resultsClasses = []
+        for i in range(10):
+            classResult = list(filter(lambda t : t[1] == i, test_results))
+            hits = sum(int(x == y) for (x, y) in classResult)
+            result = hits/len(classResult)
+            print("Class {}, result: {}".format(i, result))
+        return
 
 #### Miscellaneous functions
 def sigmoid(z):
