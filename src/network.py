@@ -63,8 +63,10 @@ class Network(object):
             for mini_batch in mini_batches:
                 self.update_mini_batch(mini_batch, eta)
             if test_data:
-                print ("Total result of Epoch {0}: {1} / {2}".format(
-                    j, self.evaluate(test_data), n_test))
+                print("Epoch {}:\n".format(j))
+                totalResult = self.evaluate(test_data);
+                print ("Total result of Epoch {0}: {1} / {2}\n".format(
+                    j, totalResult, n_test))
             else:
                 print ("Epoch {0} complete".format(j))
 
